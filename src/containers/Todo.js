@@ -28,13 +28,13 @@ export default function Todo() {
     }, []);
 
     const fetchTodos = async () => {
-        const response = await axios.get('http://localhost:5000/api/todos');
+        const response = await axios.get('https://jaspreetcafebackend.onrender.com/api/todos');
         setTodos(response.data);
     };
 
     const addTodo = async () => {
          if (text.trim() === '') return;
-        const response = await axios.post('http://localhost:5000/api/todos', { text });
+        const response = await axios.post('https://jaspreetcafebackend.onrender.com/api/todos', { text });
         console.log("response",response.data)
         setTodos([...todos, response.data]);
         setText('');
@@ -42,7 +42,7 @@ export default function Todo() {
 
     const deleteText = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/todos/delete/${id}`);
+            await axios.delete(`https://jaspreetcafebackend.onrender.com/api/todos/delete/${id}`);
             fetchTodos();
         } catch (error) {
             console.error('Error deleting item:', error);
@@ -62,7 +62,7 @@ export default function Todo() {
 
     const updateText = async () => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/todos/update/${id}`, { text: text });
+            const res = await axios.put(`https://jaspreetcafebackend.onrender.com/api/todos/update/${id}`, { text: text });
             console.log("ress",res)
             setText("");
             fetchTodos();

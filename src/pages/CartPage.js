@@ -10,7 +10,7 @@ export default function CartPage() {
 
   const handleCheckout = async () => {
     try {
-      await axios.post('http://localhost:5000/api/cart/checkout', {
+      await axios.post('https://jaspreetcafebackend.onrender.com/api/cart/checkout', {
         userEmail: email,
         items: cart
       });

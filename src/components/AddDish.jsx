@@ -30,7 +30,7 @@ export default function AddDish({ isLoading, modalOpen, dishId, onDialogClose })
         const imageData = new FormData();
         imageData.append('image', file);
         try {
-            const res = await axios.post('http://localhost:5000/api/upload', imageData, {
+            const res = await axios.post('https://jaspreetcafebackend.onrender.com/api/upload', imageData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
