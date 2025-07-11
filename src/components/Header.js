@@ -8,11 +8,13 @@ import Avatar from '@mui/material/Avatar';
 import { ListItemIcon } from "@mui/material";
 import Logout from '@mui/icons-material/Logout';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function Header() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [loginUser, setLoginUser] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
 
@@ -26,8 +28,7 @@ function Header() {
 
   const jwt_decode = (token) => {
     try {
-      // If token is malformed or undefined, this will throw
-      const base64Url = token.split('.')[1]; // Get payload part
+      const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
         atob(base64).split('').map(function (c) {
@@ -43,7 +44,6 @@ function Header() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (token && token !== "undefined") {
       const userLogin = jwt_decode(token);
       if (userLogin) {
@@ -66,18 +66,33 @@ function Header() {
   };
 
   return (
-    <section className="navbardiv">
-      <nav className="navbar">
+    <section className="navbardiv" style={{ width: '100%', background: '#333', color: '#fff' }}>
+      <nav className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', padding: '10px 20px' }}>
         <Link to="/">
-          <img src="images/jaspreet-logo.jpg" height="150px" style={{ marginTop: "-20px" }} alt="" />
+          <img src="images/jaspreet-logo.jpg" height="100px" style={{ marginTop: "-10px" }} alt="Logo" />
         </Link>
-        <ul>
-          <li className={window.location.pathname === "/" ? "active" : ""}><Link to="/">Home</Link></li>
-          <li className={window.location.pathname === "/about" ? "active" : ""}><Link to="/about">About</Link></li>
-          <li className={window.location.pathname === "/menu" ? "active" : ""}><Link to="/menu">Menu</Link></li>
-          <li className={window.location.pathname === "/services" ? "active" : ""}><Link to="/services">Services</Link></li>
-          <li className={window.location.pathname === "/gallery" ? "active" : ""}><Link to="/gallery">Gallery</Link></li>
-          <li className={window.location.pathname === "/contactus" ? "active" : ""}><Link to="/contactus">Contact Us</Link></li>
+
+        {/* Hamburger Icon for Mobile */}
+        <div className="menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ display: 'none', color: '#fff', fontSize: '28px', cursor: 'pointer' }}>
+          <MenuIcon />
+        </div>
+
+        {/* Main Menu */}
+        <ul className={`menu-list ${mobileMenuOpen ? 'show' : ''}`} style={{
+          display: 'flex',
+          listStyle: 'none',
+          padding: 0,
+          margin: 0,
+          gap: '15px',
+          flexWrap: 'wrap'
+        }}>
+          <li className={window.location.pathname === "/" ? "active" : ""}><Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link></li>
+          <li className={window.location.pathname === "/about" ? "active" : ""}><Link to="/about" style={{ color: '#fff', textDecoration: 'none' }}>About</Link></li>
+          <li className={window.location.pathname === "/menu" ? "active" : ""}><Link to="/menu" style={{ color: '#fff', textDecoration: 'none' }}>Menu</Link></li>
+          <li className={window.location.pathname === "/services" ? "active" : ""}><Link to="/services" style={{ color: '#fff', textDecoration: 'none' }}>Services</Link></li>
+          <li className={window.location.pathname === "/gallery" ? "active" : ""}><Link to="/gallery" style={{ color: '#fff', textDecoration: 'none' }}>Gallery</Link></li>
+          <li className={window.location.pathname === "/contactus" ? "active" : ""}><Link to="/contactus" style={{ color: '#fff', textDecoration: 'none' }}>Contact Us</Link></li>
+
           {authenticated && loginUser ? (
             <li>
               <Tooltip title="Account">
@@ -150,13 +165,35 @@ function Header() {
               </Menu>
             </li>
           ) : (
-            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/login" style={{ color: '#fff', textDecoration: 'none' }}>Login</Link></li>
           )}
         </ul>
       </nav>
+
+      {/* Inline responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .menu-toggle {
+            display: block !important;
+          }
+          .menu-list {
+            display: none !important;
+            flex-direction: column;
+            background-color: #444;
+            width: 100%;
+            padding: 10px 0;
+          }
+          .menu-list.show {
+            display: flex !important;
+          }
+          .menu-list li {
+            padding: 10px 20px;
+            border-bottom: 1px solid #555;
+          }
+        }
+      `}</style>
     </section>
   );
 }
 
 export default Header;
-
