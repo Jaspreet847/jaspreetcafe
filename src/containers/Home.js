@@ -60,7 +60,6 @@ export default function Home() {
       <Lunch />
       <Dinner />
 
-      <Footer />
     </div>
   );
 }
