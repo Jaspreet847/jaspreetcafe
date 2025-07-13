@@ -21,7 +21,7 @@ import AdminPanel from './dashboard';
 import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
 import FloatingCart from './components/FloatingCart';
-
+import ReceiptPage from './pages/ReceiptPage';
 function App() {
 
 
@@ -78,6 +78,10 @@ function App() {
               <Route path="*" element={<PageNotFound />} />
 
               <Route path="/cart" element={<CartPage />} />
+
+
+
+              <Route path="/receipt" element={<ReceiptPage />} />
 
             </Routes>
             <Footer />
